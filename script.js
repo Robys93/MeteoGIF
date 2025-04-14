@@ -6,8 +6,11 @@ const meteoTemeperatura = document.querySelector('.meteo-temperatura');
 const meteoSuggerimenti = document.querySelector('.meteo-suggerimenti');
 const toggleBtn = document.getElementById('toggle-tema');
 const selectCitta = document.getElementById('seleziona-citta');
+const selectUnita = document.getElementById('unita');
+const extraInfo = document.getElementById('extra-info');
 
-// Suggerimenti meteo
+let currentUnits = 'metric';
+
 const suggestions = {
     '01d': 'Ricordati la crema solare!',
     '01n': 'Buonanotte!',
@@ -29,7 +32,6 @@ const suggestions = {
     '50n': 'Guida con prudenza!'
 };
 
-// Meme/GIF meteo (URL Giphy)
 const memeIcons = {
     '01d': 'https://media.giphy.com/media/3o7aCTPPm4OHfRLSH6/giphy.gif',
     '01n': 'https://media.giphy.com/media/l0HU7JI1nq8jH6QKI/giphy.gif',
@@ -52,14 +54,12 @@ const memeIcons = {
     'default': 'https://media.giphy.com/media/l0HU7JI1nq8jH6QKI/giphy.gif'
 };
 
-// Coordinate città predefinite
 const cittaCoordinate = {
     "Roma": { lat: 41.9028, lon: 12.4964 },
     "Milano": { lat: 45.4642, lon: 9.19 },
     "Napoli": { lat: 40.8522, lon: 14.2681 }
 };
 
-// Cambio città
 selectCitta.addEventListener('change', () => {
     const scelta = selectCitta.value;
     if (scelta === 'current') {
@@ -69,11 +69,15 @@ selectCitta.addEventListener('change', () => {
     }
 });
 
-// Geolocalizzazione iniziale
-defaultLocation();
-function defaultLocation() {
-    navigator.geolocation.getCurrentPosition(on_success, on_error);
-}
+selectUnita.addEventListener('change', () => {
+    currentUnits = selectUnita.value;
+    const scelta = selectCitta.value;
+    if (scelta === 'current') {
+        navigator.geolocation.getCurrentPosition(on_success, on_error);
+    } else if (cittaCoordinate[scelta]) {
+        mostraMeteo(cittaCoordinate[scelta].lat, cittaCoordinate[scelta].lon);
+    }
+});
 
 function on_error() {
     meteoLocation.innerText = '';
@@ -89,9 +93,8 @@ function on_success(position) {
 
 async function mostraMeteo(lat, long) {
     const API_KEY = '651211c390ecb7765704dfeedbe397da';
-    const units = 'metric';
     const lang = 'it';
-    const endpoint = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=${units}&lang=${lang}`;
+    const endpoint = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=${currentUnits}&lang=${lang}`;
 
     const response = await fetch(endpoint);
     const data = await response.json();
@@ -99,13 +102,17 @@ async function mostraMeteo(lat, long) {
     const icon = data.weather[0].icon;
     const description = data.weather[0].description;
     const hour = new Date(data.dt * 1000).getHours();
+    const windSpeed = data.wind.speed;
+    const windDeg = data.wind.deg;
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const direction = directions[Math.round(windDeg / 45) % 8];
 
     meteoLocation.innerText = data.name;
     meteoIcona.src = memeIcons[icon] || memeIcons['default'];
     meteoIcona.alt = description;
-    meteoTemeperatura.innerText = Math.floor(data.main.temp) + "°C";
+    meteoTemeperatura.innerText = Math.floor(data.main.temp) + (currentUnits === 'metric' ? '°C' : '°F');
     meteoSuggerimenti.innerText = suggestions[icon] || '';
-
+    extraInfo.innerHTML = `Vento: ${windSpeed} ${currentUnits === 'metric' ? 'm/s' : 'mph'} da ${direction}`;
     if (hour >= 20 || hour < 6) {
         htmlElement.classList.add('tema-scuro');
     } else {
@@ -115,7 +122,8 @@ async function mostraMeteo(lat, long) {
     htmlElement.classList.remove('js-loading');
 }
 
-// Cambio tema manuale
 toggleBtn.addEventListener('click', () => {
     htmlElement.classList.toggle('tema-scuro');
 });
+
+navigator.geolocation.getCurrentPosition(on_success, on_error);
