@@ -112,7 +112,7 @@ async function mostraMeteo(lat, long) {
     meteoIcona.alt = description;
     meteoTemeperatura.innerText = Math.floor(data.main.temp) + (currentUnits === 'metric' ? '°C' : '°F');
     meteoSuggerimenti.innerText = suggestions[icon] || '';
-    extraInfo.innerHTML = `Vento: ${windSpeed} ${currentUnits === 'metric' ? 'm/s' : 'mph'} da ${direction}`;
+    extraInfo.innerHTML = `💨: ${windSpeed} ${currentUnits === 'metric' ? 'm/s' : 'mph'} da ${direction}`;
     if (hour >= 20 || hour < 6) {
         htmlElement.classList.add('tema-scuro');
     } else {
