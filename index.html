@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it" class="js-loading">
+<head>
+    <meta charset="UTF-8">
+    <title>MeMeteo</title>
+    <link rel="image" href="images/icon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="panel">
+            <h1>Meteo</h1>
+            <img class="logo" src="images/icon.png" alt="logo applicazione">
+            <button id="toggle-tema">Cambia Tema</button>
+        </header>
+        <main>
+            <section class="panel">
+                <label for="seleziona-citta">Che tempo fa a:</label>
+                <select id="seleziona-citta">
+                    <option value="current">La mia posizione</option>
+                    <option value="Roma">Roma</option>
+                    <option value="Milano">Milano</option>
+                    <option value="Napoli">Napoli</option>
+                </select>
+            </section>
+
+            <section class="meteo-info panel">
+                <div class="meteo-location">Calcolo posizione...</div>
+                <img class="meteo-icona" src="" alt="">
+                <div class="meteo-temperatura"></div>
+            </section>
+            <section class="meteo-suggerimenti panel">
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

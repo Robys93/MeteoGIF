@@ -1,0 +1,90 @@
+/* css reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-body: rgb(76, 100, 242);
+    --bg-panel: rgb(184, 211, 255);
+    --text-color: black;
+}
+
+.tema-scuro {
+    --bg-body: #121212;
+    --bg-panel: #1f1f1f;
+    --text-color: white;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-color);
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 540px;
+}
+
+.panel {
+    margin: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    background-color: var(--bg-panel);
+}
+
+.logo {
+    width: 64px;
+    height: 64px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+  font-size: 31px;
+  text-transform: uppercase;  
+}
+
+main {
+    text-align: center;
+}
+
+.meteo-info {
+    min-height: 450px;
+}
+
+.meteo-location {
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.meteo-icona {
+    max-width: 90%;
+    transition: opacity 0.5s, translate 1s;
+}
+
+.meteo-temperatura {
+    font-size: 120px;
+    font-weight: 500;
+}
+
+.meteo-suggerimenti {
+    font-size: 24px;
+    font-weight: 700;
+    transition: scale 1s;
+}
+
+.js-loading .meteo-icona {
+    opacity: 0;
+    translate: 0 32px;
+}
+
+.js-loading .meteo-suggerimenti {
+    scale: 0;
+}
