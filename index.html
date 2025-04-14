@@ -22,12 +22,19 @@
                     <option value="Milano">Milano</option>
                     <option value="Napoli">Napoli</option>
                 </select>
+
+                <label for="unita">Unità:</label>
+                <select id="unita">
+                    <option value="metric">Celsius (°C)</option>
+                    <option value="imperial">Fahrenheit (°F)</option>
+                </select>
             </section>
 
             <section class="meteo-info panel">
                 <div class="meteo-location">Calcolo posizione...</div>
                 <img class="meteo-icona" src="" alt="">
                 <div class="meteo-temperatura"></div>
+                <div class="meteo-extra" id="extra-info"></div>
             </section>
             <section class="meteo-suggerimenti panel">
             </section>
